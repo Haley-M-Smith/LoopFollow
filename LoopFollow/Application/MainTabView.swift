@@ -2,6 +2,7 @@
 // MainTabView.swift
 
 import SwiftUI
+import UIKit
 
 // MARK: - Haley's baby-pink accent theme
 
@@ -10,6 +11,7 @@ import SwiftUI
 extension Color {
     static let babyPinkAccent = Color(red: 0.84, green: 0.31, blue: 0.56)
     static let babyPinkSoft = Color(red: 0.98, green: 0.82, blue: 0.90)
+    static let lightPurple = Color(red: 0.72, green: 0.50, blue: 0.93)
 }
 
 struct MainTabView: View {
@@ -26,6 +28,16 @@ struct MainTabView: View {
 
     @State private var showTelemetryConsent = false
     @State private var showOnboarding = false
+
+    init() {
+        // Keep the unselected tab items—including Menu—in the pastel palette.
+        UITabBar.appearance().unselectedItemTintColor = UIColor(
+            red: 0.98,
+            green: 0.82,
+            blue: 0.90,
+            alpha: 1
+        )
+    }
 
     private var orderedItems: [TabItem] {
         Storage.shared.orderedTabBarItems()

@@ -4,6 +4,7 @@
 import SwiftUI
 
 // MARK: - Haley's baby-pink accent theme
+
 // A deeper rose is used for interactive controls so they remain readable,
 // while the pale pink is reserved for decorative accents.
 extension Color {

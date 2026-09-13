@@ -14,7 +14,6 @@ struct BGDisplayView: View {
     @ObservedObject var loopStatusText = Observable.shared.loopStatusText
     @ObservedObject var loopStatusColor = Observable.shared.loopStatusColor
     @ObservedObject var predictionText = Observable.shared.predictionText
-    @ObservedObject var predictionColor = Observable.shared.predictionColor
     @ObservedObject var isNotLooping = Observable.shared.isNotLooping
 
     var onRefresh: (() -> Void)?
@@ -43,11 +42,13 @@ struct BGDisplayView: View {
                     Text(deltaText.value)
                         .font(.system(size: 32))
                 }
+                .foregroundColor(.babyPinkSoft)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
 
                 Text(minAgoText.value)
                     .font(.system(size: 17))
+                    .foregroundColor(.babyPinkSoft)
 
                 if isNotLooping.value {
                     Text(loopStatusText.value)
@@ -58,9 +59,9 @@ struct BGDisplayView: View {
                     HStack {
                         Spacer()
                         Text(loopStatusText.value)
-                            .foregroundColor(loopStatusColor.value)
+                            .foregroundColor(.babyPinkSoft)
                         Text(predictionText.value)
-                            .foregroundColor(predictionColor.value)
+                            .foregroundColor(.babyPinkSoft)
                         Spacer()
                     }
                     .font(.system(size: 17))

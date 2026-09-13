@@ -30,6 +30,7 @@ struct StatsDisplayView: View {
                     statColumn(title: model.stdDevTitle, value: model.stdDev)
                 }
             }
+            .foregroundStyle(Color.babyPinkSoft)
             .frame(maxWidth: .infinity)
         }
         .frame(height: 100)

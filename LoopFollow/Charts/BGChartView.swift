@@ -1178,7 +1178,7 @@ private struct BGChartCanvas: View, Equatable {
                 yStart: .value("yBottom", 0.0),
                 yEnd: .value("rate", step.rate * basalScale)
             )
-            .foregroundStyle(.blue.opacity(0.35))
+            .foregroundStyle(Color.lightPurple.opacity(0.55))
         }
     }
 
@@ -1191,7 +1191,7 @@ private struct BGChartCanvas: View, Equatable {
                 series: .value("series", "basalScheduled")
             )
             .lineStyle(StrokeStyle(lineWidth: 2, dash: [10, 5]))
-            .foregroundStyle(Color.blue.opacity(0.8))
+            .foregroundStyle(Color.lightPurple.opacity(0.9))
         }
     }
 

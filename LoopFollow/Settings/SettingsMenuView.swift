@@ -27,12 +27,12 @@ struct SettingsMenuView: View {
 // MARK: – Sheet routing
 
 enum SettingsSection: String, CaseIterable, Hashable {
-    case data = "Data Settings"
-    case display = "Display Settings"
-    case app = "App Settings"
-    case alarms = "Alarms"
-    case integrations = "Integrations"
-    case advanced = "Advanced Settings"
+    case data = "🔗 Data Settings"
+    case display = "🎨 Display Settings"
+    case app = "📱 App Settings"
+    case alarms = "🚨 Alarms"
+    case integrations = "🧩 Integrations"
+    case advanced = "🛠️ Advanced Settings"
 }
 
 /// A single setting inside a settings screen, exposed to Menu search. Leaves
@@ -76,24 +76,24 @@ enum SettingsRoute: Hashable, Identifiable {
     /// included in `menuSections`.
     var title: String {
         switch self {
-        case .nightscout: return "Nightscout"
-        case .dexcom: return "Dexcom"
-        case .general: return "General"
-        case .graph: return "Graph"
-        case .infoDisplay: return "Information Display"
-        case .units: return "Units and Metrics"
-        case .tabSettings: return "Tabs"
-        case .backgroundRefresh: return "Background Refresh"
-        case .importExport: return "Import/Export"
-        case .apn: return "APN"
+        case .nightscout: return "🌙 Nightscout"
+        case .dexcom: return "📈 Dexcom"
+        case .general: return "🎀 General"
+        case .graph: return "📊 Graph"
+        case .infoDisplay: return "✨ Information Display"
+        case .units: return "📏 Units and Metrics"
+        case .tabSettings: return "🗂️ Tabs"
+        case .backgroundRefresh: return "🔄 Background Refresh"
+        case .importExport: return "📦 Import/Export"
+        case .apn: return "🔔 APN"
         #if !targetEnvironment(macCatalyst)
-            case .liveActivity: return "Live Activity"
+            case .liveActivity: return "⚡ Live Activity"
         #endif
-        case .remote: return "Remote"
-        case .alarmSettings: return "Alarms"
-        case .calendar: return "Calendar"
-        case .contact: return "Contact"
-        case .advanced: return "Advanced"
+        case .remote: return "📡 Remote"
+        case .alarmSettings: return "🚨 Alarms"
+        case .calendar: return "📅 Calendar"
+        case .contact: return "👤 Contact"
+        case .advanced: return "🛠️ Advanced"
         case .settings, .aggregatedStats: return ""
         }
     }

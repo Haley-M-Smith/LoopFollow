@@ -45,7 +45,7 @@ struct MainHomeView: View {
                         .frame(minWidth: 160, maxWidth: 250)
                         .overlay(
                             Rectangle()
-                                .fill(Color(UIColor.darkGray))
+                                .fill(Color.babyPinkAccent.opacity(0.85))
                                 .frame(width: 2),
                             alignment: .leading
                         )

@@ -67,13 +67,13 @@ enum TabItem: String, CaseIterable, Codable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .home: return "Home"
-        case .alarms: return "Alarms"
-        case .remote: return "Remote"
-        case .nightscout: return "Nightscout"
-        case .snoozer: return "Snoozer"
-        case .treatments: return "Treatments"
-        case .stats: return "Statistics"
+        case .home: return "🏠 Home"
+        case .alarms: return "🚨 Alarms"
+        case .remote: return "📡 Remote"
+        case .nightscout: return "🌙 Nightscout"
+        case .snoozer: return "😴 Snoozer"
+        case .treatments: return "🩹 Treatments"
+        case .stats: return "📊 Statistics"
         }
     }
 

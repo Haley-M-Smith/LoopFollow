@@ -3,6 +3,15 @@
 
 import SwiftUI
 
+// MARK: - Haley's baby-pink accent theme
+
+// A deeper rose is used for interactive controls so they remain readable,
+// while the pale pink is reserved for decorative accents.
+extension Color {
+    static let babyPinkAccent = Color(red: 0.84, green: 0.31, blue: 0.56)
+    static let babyPinkSoft = Color(red: 0.98, green: 0.82, blue: 0.90)
+}
+
 struct MainTabView: View {
     @ObservedObject private var selectedTab = Observable.shared.selectedTabIndex
     @ObservedObject private var appearanceMode = Storage.shared.appearanceMode
@@ -55,6 +64,7 @@ struct MainTabView: View {
             }
             .tag(4)
         }
+        .tint(.babyPinkAccent)
         .preferredColorScheme(appearanceMode.value.colorScheme)
         .onAppear {
             // Start the data pipeline as soon as the UI appears, independent of

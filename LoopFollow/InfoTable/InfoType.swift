@@ -29,6 +29,7 @@ enum InfoType: Int, CaseIterable, Codable {
         case .tdd: return "💉 TDD"
         case .iage: return "🧴 IAGE"
         case .dbSize: return "🗂️ DB Size"
+        case .smoothedBG: return "📈 Smoothed BG"
         }
     }
 

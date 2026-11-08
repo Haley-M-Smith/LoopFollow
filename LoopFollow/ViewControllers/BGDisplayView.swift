@@ -15,31 +15,37 @@ struct BGDisplayView: View {
     @ObservedObject var loopStatusColor = Observable.shared.loopStatusColor
     @ObservedObject var predictionText = Observable.shared.predictionText
     @ObservedObject var isNotLooping = Observable.shared.isNotLooping
+    @ObservedObject var cgmSensorState = Observable.shared.cgmSensorState
+    @ObservedObject var retro = RetroSelection.shared
 
     var onRefresh: (() -> Void)?
 
     var body: some View {
+        // While scrubbing the chart, the display shows the scrubbed time.
+        let snapshot = retro.snapshot
+        let isStale = snapshot == nil && bgStale.value
+
         ScrollView {
             VStack(spacing: 0) {
                 Text(serverText.value)
                     .font(.system(size: 13))
 
-                Text(bgText.value)
+                Text(snapshot?.bgText ?? bgText.value)
                     .font(.system(size: 85, weight: .black))
-                    .foregroundColor(bgTextColor.value)
+                    .foregroundColor(snapshot?.bgColor ?? bgTextColor.value)
                     .strikethrough(
-                        bgStale.value,
+                        isStale,
                         pattern: .solid,
-                        color: bgStale.value ? .red : .clear
+                        color: isStale ? .red : .clear
                     )
                     .frame(maxWidth: .infinity)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
 
                 HStack {
-                    Text(directionText.value)
+                    Text(snapshot?.directionText ?? directionText.value)
                         .font(.system(size: 60, weight: .black))
-                    Text(deltaText.value)
+                    Text(snapshot?.deltaText ?? deltaText.value)
                         .font(.system(size: 32))
                 }
                 .foregroundColor(.babyPinkSoft)
@@ -56,16 +62,30 @@ struct BGDisplayView: View {
                         .foregroundColor(loopStatusColor.value)
                         .frame(maxWidth: .infinity)
                 } else {
-                    HStack {
-                        Spacer()
+                    Text(minAgoText.value)
+                        .font(.system(size: 17))
+
+                    if let state = cgmSensorState.value {
+                        Text("CGM: \(state.summary)")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundColor(.orange)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
+                    }
+
+                    if isNotLooping.value {
                         Text(loopStatusText.value)
                             .foregroundColor(.babyPinkSoft)
                         Text(predictionText.value)
                             .foregroundColor(.babyPinkSoft)
                         Spacer()
                     }
-                    .font(.system(size: 17))
                 }
+            }
+        }
+        .background {
+            if snapshot != nil {
+                RetroCardBackground()
             }
         }
         .refreshable {

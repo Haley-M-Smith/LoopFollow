@@ -63,18 +63,22 @@ class JWTManager {
     // MARK: - Private Helpers
 
     private func loadPrivateKey(from apnsKey: String) throws -> P256.Signing.PrivateKey {
-        let cleaned = apnsKey
-            .replacingOccurrences(of: "-----BEGIN PRIVATE KEY-----", with: "")
-            .replacingOccurrences(of: "-----END PRIVATE KEY-----", with: "")
-            .replacingOccurrences(of: "\n", with: "")
-            .replacingOccurrences(of: "\r", with: "")
-            .trimmingCharacters(in: .whitespaces)
+        let cleaned = Self.normalizedKeyBody(apnsKey)
 
         guard let keyData = Data(base64Encoded: cleaned) else {
             throw JWTError.keyDecodingFailed
         }
 
         return try P256.Signing.PrivateKey(derRepresentation: keyData)
+    }
+
+    /// Normalize pasted PEM formatting without changing the underlying key bytes.
+    static func normalizedKeyBody(_ key: String) -> String {
+        key.replacingOccurrences(of: "\\n", with: "\n")
+            .replacingOccurrences(of: "-----BEGIN PRIVATE KEY-----", with: "")
+            .replacingOccurrences(of: "-----END PRIVATE KEY-----", with: "")
+            .components(separatedBy: .whitespacesAndNewlines)
+            .joined()
     }
 
     private func encodeHeader(keyId: String) throws -> String {

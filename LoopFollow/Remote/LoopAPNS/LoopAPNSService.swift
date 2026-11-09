@@ -436,15 +436,17 @@ class LoopAPNSService {
     /// - Parameter pemString: The PEM formatted private key
     /// - Returns: The extracted key data string
     private func extractKeyData(from pemString: String) -> String? {
-        let lines = pemString.components(separatedBy: "\n")
-        guard let startIndex = lines.firstIndex(of: "-----BEGIN PRIVATE KEY-----"),
-              let endIndex = lines.firstIndex(of: "-----END PRIVATE KEY-----"),
-              startIndex < endIndex
-        else {
+        // Match JWTManager's PEM handling: remove the markers and normalize
+        // whitespace before validating Base64. Do not alter the key bytes.
+        guard pemString.contains("-----BEGIN PRIVATE KEY-----"),
+              pemString.contains("-----END PRIVATE KEY-----") else {
             return nil
         }
-        let keyLines = lines[(startIndex + 1) ..< endIndex]
-        return keyLines.joined()
+        return pemString
+            .replacingOccurrences(of: "-----BEGIN PRIVATE KEY-----", with: "")
+            .replacingOccurrences(of: "-----END PRIVATE KEY-----", with: "")
+            .components(separatedBy: .whitespacesAndNewlines)
+            .joined()
     }
 
     // MARK: - Date Formatting Helper

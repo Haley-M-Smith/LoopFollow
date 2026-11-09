@@ -221,7 +221,12 @@ class LoopAPNSService {
         if !normalizedPEM.contains("-----BEGIN PRIVATE KEY-----") || !normalizedPEM.contains("-----END PRIVATE KEY-----") {
             errors.append("APNS Key must include BEGIN PRIVATE KEY and END PRIVATE KEY markers.")
         } else if Data(base64Encoded: JWTManager.normalizedKeyBody(normalizedPEM)) == nil {
-            errors.append("Selected APNS private key cannot be decoded. Check whether LoopFollow is using its own key or the remote app key.")
+            let lfTeam = BuildDetails.default.teamID ?? ""
+            let remoteTeam = storage.teamId.value ?? ""
+            let selectedSource = (!lfTeam.isEmpty && lfTeam == remoteTeam)
+                ? "LoopFollow's own APNs key"
+                : "the remote Loop app's APNs key"
+            errors.append("Cannot decode \\(selectedSource). Check that the selected credential is the complete original .p8 private key. The command was not sent.")
         }
 
         return errors.isEmpty ? nil : errors

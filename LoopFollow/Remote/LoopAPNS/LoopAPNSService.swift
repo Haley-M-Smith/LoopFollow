@@ -215,18 +215,13 @@ class LoopAPNSService {
             errors.append("Team ID (\(teamId)) must be 10 uppercase alphanumeric characters.")
         }
 
-        // Validate apnsKey (should contain the BEGIN and END PRIVATE KEY markers)
-        if !apnsKey.contains("-----BEGIN PRIVATE KEY-----") || !apnsKey.contains("-----END PRIVATE KEY-----") {
-            errors.append("APNS Key must be a valid PEM-formatted private key.")
-        } else {
-            // Validate that the key data between the markers is valid Base64
-            if let keyData = extractKeyData(from: apnsKey) {
-                if Data(base64Encoded: keyData) == nil {
-                    errors.append("APNS Key contains invalid Base64 key data.")
-                }
-            } else {
-                errors.append("APNS Key has invalid formatting.")
-            }
+        // Accept pasted PEMs with literal escaped newlines and harmless whitespace.
+        // Use the exact same normalized bytes that JWTManager will sign with.
+        let normalizedPEM = apnsKey.replacingOccurrences(of: "\\n", with: "\n")
+        if !normalizedPEM.contains("-----BEGIN PRIVATE KEY-----") || !normalizedPEM.contains("-----END PRIVATE KEY-----") {
+            errors.append("APNS Key must include BEGIN PRIVATE KEY and END PRIVATE KEY markers.")
+        } else if Data(base64Encoded: JWTManager.normalizedKeyBody(normalizedPEM)) == nil {
+            errors.append("Selected APNS private key cannot be decoded. Check whether LoopFollow is using its own key or the remote app key.")
         }
 
         return errors.isEmpty ? nil : errors

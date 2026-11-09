@@ -62,8 +62,13 @@ struct BGDisplayView: View {
                         .foregroundColor(loopStatusColor.value)
                         .frame(maxWidth: .infinity)
                 } else {
-                    Text(minAgoText.value)
-                        .font(.system(size: 17))
+                    HStack(spacing: 4) {
+                        Text(loopStatusText.value)
+                            .foregroundColor(loopStatusColor.value)
+                        Text(predictionText.value)
+                            .foregroundColor(.babyPinkSoft)
+                    }
+                    .font(.system(size: 17))
 
                     if let state = cgmSensorState.value {
                         Text("CGM: \(state.summary)")
@@ -73,13 +78,6 @@ struct BGDisplayView: View {
                             .frame(maxWidth: .infinity)
                     }
 
-                    if isNotLooping.value {
-                        Text(loopStatusText.value)
-                            .foregroundColor(.babyPinkSoft)
-                        Text(predictionText.value)
-                            .foregroundColor(.babyPinkSoft)
-                        Spacer()
-                    }
                 }
             }
         }
